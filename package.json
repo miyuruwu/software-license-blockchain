@@ -1,0 +1,9 @@
+{
+  "name": "software-license-blockchain",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Foundry starter for software license management",
+  "dependencies": {
+    "@openzeppelin/contracts": "5.6.1"
+  }
+}
