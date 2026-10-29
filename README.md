@@ -114,3 +114,21 @@ Giao diện đọc dữ liệu và lịch sử trực tiếp từ blockchain. V�
 - Sau khi demo local ổn định: triển khai lên testnet và chuẩn bị báo cáo, sơ đồ kiến trúc, kịch bản demo.
 
 Blockchain lưu quyền sử dụng và lịch sử giao dịch; phần mềm chạy hoàn toàn trên máy người dùng vẫn có thể bị sửa để bỏ qua bước kiểm tra. Phạm vi báo cáo cần phân biệt xác minh giấy phép với chống sao chép tuyệt đối.
+
+## Web dashboard và backend local
+
+Yêu cầu Node.js 20+, npm, và artifact tạo bằng `forge build`. Chạy:
+
+```powershell
+npm ci
+forge build
+npm run dev
+```
+
+Mở http://127.0.0.1:3000. Backend tự khởi động Anvil nếu RPC chưa chạy và triển khai contract. Địa chỉ lưu trong `.local/deployment.json`. Windows dùng optional dependency Anvil; Linux/macOS cần `anvil` trong PATH hoặc đặt `ANVIL_BIN` trong `.env`. Cấu hình mẫu ở `.env.example`.
+
+Dashboard hỗ trợ đăng ký/tạm ngừng phần mềm, cấp/gia hạn/thu hồi, phân trang và xác minh giấy phép. API: GET `/api/health`, `/api/state?page=1`, `/api/verify?softwareId=1&holder=0x...`; POST `/api/softwares`, `/api/softwares/:id/status`, `/api/licenses`, `/api/licenses/:id/renew`, `/api/licenses/:id/revoke`. Thời hạn API là Unix timestamp giây.
+
+Bản demo dùng ví Anvil đã mở khóa, chưa có đăng nhập hay xác thực chữ ký ví người dùng. Chỉ phục vụ loopback, chặn request khác origin; không triển khai backend này ra Internet. Chain nằm trong bộ nhớ; reset sẽ mất dữ liệu. Hash mặc định băm tên/phiên bản để demo, có thể nhập hash tệp thật.
+
+Khi server chạy, mở terminal khác và chạy `npm run test:api` để kiểm thử giao dịch (tạo dữ liệu demo). Ctrl+C dừng backend và Anvil do backend khởi động.

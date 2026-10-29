@@ -3,3 +3,6 @@ out/
 cache/
 broadcast/
 .env
+
+.local/
+*.log
